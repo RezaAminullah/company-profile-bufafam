@@ -1,0 +1,925 @@
+@extends('layouts.template')
+
+@section('title','kelola produk')
+
+
+@section('content')
+<main id="main">
+
+        <!-- ======= Breadcrumbs ======= -->
+        <section id="breadcrumbs" class="breadcrumbs">
+            <div class="container">
+      
+              <ol>
+                <li><a href="{{ url('/') }}">Home</a></li>
+                <li>Kelola Produk</li>
+              </ol>
+              <h2>Kelola Produk</h2>
+      
+            </div>
+          </section><!-- End Breadcrumbs -->
+
+    <section class="inner-page mt-4">
+        <div class="container">
+            <a href="{{url('/dashboard/product-create')}}" class="btn btn-success">
+                create produk
+            </a>
+            
+            <div class="row mt-4">
+                <div class="col-lg-12">
+                    List Product
+                </div>
+            </div>
+            
+        </div>
+    </section>
+    
+</main>
+
+@endsection
+
+
+
+@extends('layouts.template')
+
+@section('title', 'Kelola produk')
+
+@section('content')
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+        <div class="container">
+
+            <ol>
+                <li><a href="{{ url('/') }}">Home</a></li>
+                <li>Kelola Produk</li>
+            </ol>
+            <h2>Kelola Produk</h2>
+
+        </div>
+    </section><!-- End Breadcrumbs -->
+
+    <section class="inner-page mt-4">
+        <div class="container">
+            <a href="{{ url('/dashboard/product-create') }}" class="btn btn-success">
+                Tambah Produk
+            </a>
+
+            <div class="row mt-4">
+                <div class="col-lg-12">
+                    <h3>List Produk</h3>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nama Produk</th>
+                                    <th>Harga</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($products as $product)
+                                <tr>
+                                    <td>{{ $product->id }}</td>
+                                    <td>{{ $product->namaproduk }}</td>
+                                    <td>{{ $product->harga }}</td>
+                                    <td>
+                                        <a href="{{ route('product.show', $product->id) }}" class="btn btn-primary">Detail</a>
+                                        <a href="{{ route('product.edit', $product->id) }}" class="btn btn-success">Edit</a>
+                                        <form action="{{ route('product.destroy', $product->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Hapus</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+@endsection
+
+
+@extends('layouts.template')
+
+@section('title','Tambah Produk')
+
+
+@section('content')
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+        <div class="container">
+            <ol>
+                <li><a href="{{ url('/') }}">Home</a></li>
+                <li>Tambah Produk</li>
+            </ol>
+            <h2>Tambah Produk</h2>
+        </div>
+    </section><!-- End Breadcrumbs -->
+
+    <section class="inner-page mt-4">
+        <div class="container">
+            <h2> Tambahkan Produk </h2><br>
+
+            <form method="post" action="{{ url('/dashboard/product-create') }}" enctype="multipart/form-data">
+                @csrf
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="form-group">
+                            <label>Nama Produk</label>
+                            <input type="text" name="namaproduk" class="form-control" value="{{ old('namaproduk') }}" required>
+                        </div><br>
+
+                        <div class="form-group">
+                            <label>Harga Produk</label>
+                            <input type="text" name="harga" class="form-control" value="{{ old('harga') }}" required>
+                        </div><br>
+
+                        <div class="form-group">
+                            <label>Foto Produk</label><br>
+                            <input type="file" name="foto" class="form-control-file" accept="image/*" required>
+                            <!-- 'accept="image/*"' digunakan untuk membatasi jenis file yang dapat diunggah hanya berupa gambar -->
+                        </div><br><br>
+
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary float-right"> Simpan </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </section>
+
+</main>
+@endsection
+
+
+
+<?php
+
+
+
+
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('news', function (Blueprint $table) {
+            $table->id();
+            $table->string('judul');
+            $table->string('slug');
+            $table->text('content');
+            $table->string('gambar')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('news');
+    }
+};
+
+@extends('layouts.template')
+
+@section('title', 'About Us')
+
+@section('content')
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+        <div class="container">
+            <ol>
+                <li><a href="{{ url('/') }}">Home</a></li>
+                <li>About Us</li>
+            </ol>
+            <h2>About Us</h2>
+        </div>
+    </section><!-- End Breadcrumbs -->
+
+    <!-- ======= Team Section ======= -->
+    <section id="team" class="team">
+        <div class="section-title">
+            <h2>Meet Our Team</h2>
+        </div>
+
+        <div class="container">
+            <div class="row justify-content-center">
+              @foreach($aboutUs as $aboutus)
+
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                    <div class="member">
+                        <img src="{{ asset('assets/img/team/blankprofile.png') }}" alt="">
+                        <h4>{{ $aboutus->nama }}</h4>
+                        <span>{{ $aboutus->jabatan }}</span>
+                        <p>{{ $aboutus->deskripsi }}</p>
+                        <div class="social">
+                            <a href=""><i class="bi bi-twitter"></i></a>
+                            <a href=""><i class="bi bi-facebook"></i></a>
+                            <a href=""><i class="bi bi-instagram"></i></a>
+                            <a href=""><i class="bi bi-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </section><!-- End Team Section -->
+
+</main><!-- End #main -->
+@endsection
+
+
+@extends('layouts.template')
+
+@section('title','contact')
+
+@section('extracss')
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NO4QkF+8lf5HqgtE8RtB0EMOw3L3E2oknRtbMP3hmi1PrwQnDA==" crossorigin=""/>
+
+@endsection
+
+@section('content')
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+      <div class="container">
+
+        <ol>
+          <li><a href="{{ url('/') }}">Home</a></li>
+          <li>Contact</li>
+        </ol>
+        <h2>Contact</h2>
+
+      </div>
+    </section><!-- End Breadcrumbs -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container">
+
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="info-box mb-4">
+              <i class="bx bx-map"></i>
+              <h3>Our Address</h3>
+              <p>Jalan Bendul Merisi Airdas no. 10 A, Kel. Bendulmerisi, Kec. Wonocolo, Kota Surabaya , 60239</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="info-box  mb-4">
+              <i class="bx bx-envelope"></i>
+              <h3>Email Us</h3>
+              <p>bufafamjayaabadi@gmail.com</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="info-box  mb-4">
+              <i class="bx bx-phone-call"></i>
+              <h3>Call Us</h3>
+              <p>+62-8213-1722-230</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+
+          {{-- <div class="col-lg-6 ">
+            <iframe class="mb-4 mb-lg-0" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" style="border:0; width: 100%; height: 384px;" allowfullscreen></iframe>
+          </div> --}}
+          {{-- <div class="col-lg-6 ">
+            <iframe class="mb-4 mb-lg-0" src="assets\img\lokasi_bufafam.png" frameborder="0" style="border:0; width: 100%; height: 384px;" allowfullscreen></iframe>
+          </div> --}}
+          <div class="col-lg-6">
+            <div id="map" style="width: 100%; height: 384px;"></div>
+          </div>
+          
+
+          <div class="col-lg-6">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="info-box mb-4">
+                        <i class="bx bx-user"></i>
+                        <h3>Contact Person 1</h3>
+                        <p>Nama: John Doe<br>Email: johndoe@example.com<br>Telepon: +62-8123-4567-890</p>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="info-box mb-4">
+                        <i class="bx bx-user"></i>
+                        <h3>Contact Person 2</h3>
+                        <p>Nama: Jane Doe<br>Email: janedoe@example.com<br>Telepon: +62-8234-5678-901</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+          {{-- <div class="col-lg-6">
+            <form action="sendEmail.php" method="post" role="form" class="php-email-form">
+              <div class="row">
+                <div class="col-md-6 form-group">
+                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                </div>
+                <div class="col-md-6 form-group mt-3 mt-md-0">
+                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                </div>
+              </div>
+              <div class="form-group mt-3">
+                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+              </div>
+              <div class="form-group mt-3">
+                <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+              </div>
+              <div class="my-3">
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Your message has been sent. Thank you!</div>
+              </div>
+              <div class="text-center"><button type="submit">Send Message</button></div>
+            </form>
+          </div> --}}
+
+        </div>
+
+      </div>
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+  @section('extrajs')
+
+  <!-- Leaflet JavaScript -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NO4QkF+8lf5HqgtE8RtB0EMOw3L3E2oknRtbMP3hmi1PrwQnDA==" crossorigin=""></script>
+
+<script>
+  // Inisialisasi peta
+  var map = L.map('map').setView([40.7101282, -74.0062269], 15);
+
+  // Tambahkan tile layer (misalnya dari OpenStreetMap)
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  // Tambahkan marker
+  L.marker([40.7101282, -74.0062269]).addTo(map)
+    .bindPopup('Downtown Conference Center')
+    .openPopup();
+</script>
+
+  @endsection
+
+
+@endsection
+
+@extends('layouts.template')
+
+@section('title','home')
+
+@section('content')
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero">
+    <div class="hero-container">
+      <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
+
+        <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+
+        <div class="carousel-inner" role="listbox">
+
+          <!-- Slide 1 -->
+          <div class="carousel-item active" style="background-image: url(assets/img/slide/slide-1.jpg)">
+            <div class="carousel-container">
+              <div class="carousel-content">
+                <h2 class="animate__animated animate__fadeInDown">Welcome to <span>Pt. Bufafam</span></h2>
+                <p class="animate__animated animate__fadeInUp">Bufafam Jaya Abadi adalah perusahaan yang bergerak di bidang managemen dan perencanaan ekonomi, perencanaan sosial dan pengembangan teknologi Informasi baik hardware maupun Software siapkan ataupun Sesuai Permintaan organisasi.</p>
+                {{-- <a href="" class="btn-get-started animate__animated animate__fadeInUp">Read More</a> --}}
+              </div>
+            </div>
+          </div>
+{{-- 
+          <!-- Slide 2 -->
+          <div class="carousel-item" style="background-image: url(assets/img/slide/slide-2.jpg)">
+            <div class="carousel-container">
+              <div class="carousel-content">
+                <h2 class="animate__animated fanimate__adeInDown">Lorem <span>Ipsum Dolor</span></h2>
+                <p class="animate__animated animate__fadeInUp">Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat sequi nihil ut aliquam. Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque accusamus repellendus deleniti vel. Minus et tempore modi architecto.</p>
+                <a href="" class="btn-get-started animate__animated animate__fadeInUp">Read More</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="carousel-item" style="background-image: url(assets/img/slide/slide-3.jpg)">
+            <div class="carousel-container">
+              <div class="carousel-content">
+                <h2 class="animate__animated animate__fadeInDown">Sequi ea <span>Dime Lara</span></h2>
+                <p class="animate__animated animate__fadeInUp">Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat sequi nihil ut aliquam. Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque accusamus repellendus deleniti vel. Minus et tempore modi architecto.</p>
+                <a href="" class="btn-get-started animate__animated animate__fadeInUp">Read More</a>
+              </div>
+            </div>
+          </div> --}}
+
+        </div>
+
+        <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
+        </a>
+
+        <a class="carousel-control-next" href="#heroCarousel" role="button" data-bs-slide="next">
+          <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
+        </a>
+
+      </div>
+    </div>
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= Featured Section ======= -->
+    <section id="featured" class="featured">
+      <div class="container">
+
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="icon-box">
+              <i class="bi bi-card-checklist"></i>
+              <h3><a href="">PROFESIONAL</a></h3>
+              <p>Pekerjaan dilakukan sesuai dengan standar demi penyediaan kualitas produk yang kompetitif.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 mt-4 mt-lg-0">
+            <div class="icon-box">
+              <i class="bi bi-bar-chart"></i>
+              <h3><a href="">INOVATIF</a></h3>
+              <p>Kemampuan dan pengetahuan saja tidak cukup, melainkan inovasi juga dibutuhkan untuk menyediakan solusi digital yang terbaik.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 mt-4 mt-lg-0">
+            <div class="icon-box">
+              <i class="bi bi-binoculars"></i>
+              <h3><a href="">TIM</a></h3>
+              <p>Bekerja secara tim demi pelayanan yang terbaik bagi pelanggan dengan penuh semangat dan komitmen.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Featured Section -->
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+      <div class="container">
+
+        <div class="row">
+          <div class="col-lg-6">
+            <img src="assets/img/about.jpg" class="img-fluid" alt="">
+          </div>
+          <div class="col-lg-6 pt-4 pt-lg-0 content">
+            <h3>Tantangan Organisasi Masa Kini</h3>
+            {{-- <p class="fst-italic">
+              Di era di mana pengetahuan dan informasi menjadi pendorong utama dalam setiap aspek kehidupan, baik dalam dunia bisnis maupun pemerintahan, CV. Bufafam Jaya Abadi hadir sebagai mitra yang siap menghadapi tantangan-tantangan ini dengan solusi-solusi inovatif.
+            </p> --}}
+            {{-- <ul>
+              <li><i class="bi bi-check-circle"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+              <li><i class="bi bi-check-circle"></i> Duis aute irure dolor in reprehenderit in voluptate velit.</li>
+              <li><i class="bi bi-check-circle"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</li>
+            </ul> --}}
+            <p>
+              Di era di mana pengetahuan dan informasi menjadi pendorong utama dalam setiap aspek kehidupan, baik dalam dunia bisnis maupun pemerintahan, CV. Bufafam Jaya Abadi hadir sebagai mitra yang siap menghadapi tantangan-tantangan ini dengan solusi-solusi inovatif.
+            </p>
+            <p>
+              Dalam dunia yang semakin terglobalisasi, di mana laju informasi tak terbendung dan masyarakat semakin terhubung, organisasi bisnis dan pemerintahan harus mampu beradaptasi dengan cepat. Kami memahami bahwa untuk tetap relevan dan berhasil di lingkungan yang berubah dengan cepat ini, organisasi perlu memiliki kemampuan untuk mengintegrasikan pengetahuan dan informasi secara efektif.
+            </p>
+            <p>
+              Kami memahami bahwa di tengah persaingan yang semakin ketat, organisasi bisnis harus mampu menciptakan layanan, produk, dan solusi yang tidak hanya memenuhi kebutuhan pelanggan, tetapi juga mampu berinovasi untuk memimpin pasar. Sementara itu, organisasi pemerintahan perlu memastikan keberlanjutan operasional mereka sambil tetap memberikan pelayanan yang berkualitas dan efisien kepada masyarakat.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Section -->
+
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+      <div class="container">
+
+        <h2>Our Services : Research, Consultancy, and Planning</h2>
+
+        <div class="row">
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+              <div class="icon-box">
+                  <div class="icon"><i class="bx bx-line-chart"></i></div>
+                  <h4><a href="#">Analisa Masalah Dampak Lingkungan</a></h4>
+                  <p>Menyediakan solusi untuk mengatasi dampak negatif terhadap lingkungan.</p>
+              </div>
+          </div>
+      
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+              <div class="icon-box">
+                  <div class="icon"><i class="bx bx-bar-chart"></i></div>
+                  <h4><a href="#">Bussiness Feasibility Study</a></h4>
+                  <p>Studi untuk menilai kelayakan dan potensi bisnis suatu proyek atau usaha.</p>
+              </div>
+          </div>
+      
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+              <div class="icon-box">
+                  <div class="icon"><i class="bx bx-tachometer"></i></div>
+                  <h4><a href="#">Riset dan Perencanaan Ekonomi</a></h4>
+                  <p>Melakukan studi dan perencanaan ekonomi untuk pengembangan bisnis yang berkelanjutan.</p>
+              </div>
+          </div>
+      
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+              <div class="icon-box">
+                  <div class="icon"><i class="bx bx-globe"></i></div>
+                  <h4><a href="#">Riset dan Perencanaan Sosial</a></h4>
+                  <p>Melakukan studi dan perencanaan sosial untuk membantu masyarakat secara efektif.</p>
+              </div>
+          </div>
+      
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+              <div class="icon-box">
+                  <div class="icon"><i class="bx bx-bar-chart-alt-2"></i></div>
+                  <h4><a href="#">Analis Masalah Dampak Lingkungan</a></h4>
+                  <p>Menganalisis dampak lingkungan dari suatu proyek atau kegiatan dan memberikan solusi.</p>
+              </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+            <div class="icon-box">
+                <div class="icon"><i class="bx bx-arch"></i></div>
+                <h4><a href="#">Detail Engineering Design</a></h4>
+                <p>Menghasilkan desain teknis terperinci untuk implementasi proyek yang efisien.</p>
+            </div>
+        </div>
+
+        {{-- <div class="row">
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bxl-dribbble"></i></div>
+              <h4><a href="">Analisa Masalah Dampak Lingkungan 
+              </a></h4>
+              <p></p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-file"></i></div>
+              <h4><a href="">Bussiness Feasibility Study 
+              </a></h4>
+              <p></p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-tachometer"></i></div>
+              <h4><a href="">Riset dan Perencanaan Ekonomi 
+              </a></h4>
+              <p></p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-world"></i></div>
+              <h4><a href="">Riset dan Perencanaan Sosial 
+              </a></h4>
+              <p></p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-slideshow"></i></div>
+              <h4><a href="">Analis Masalah Dampak Lingkungan 
+              </a></h4>
+              <p></p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-arch"></i></div>
+              <h4><a href="">Detail Engineering Design
+              </a></h4>
+              <p></p>
+            </div>
+          </div> --}}
+
+        </div>
+
+      </div>
+    </section><!-- End Services Section -->
+
+    <!-- ======= Clients Section ======= -->
+    <section id="clients" class="clients">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Our Approach : Partnership</h2>
+          <p>Bufafam didirikan oleh beberapa profesional muda yang telah berpengalaman luas dalam industri konsultan baik di dunia bisnis maupun pemerintahan. Bufafam berdiri di pertengahan Tahun 2011, menghimpun expert dengan beragam keahlian dan pengalaman dalam satu team yang mengutamakan mutu dan kerja profesional. 
+          </p>
+
+          <br>
+          <p>Dengan pengantar ini kami perkenalkan kemampuan kerja, kompetensi, yang menjamin kerja sama berkelanjutan. Bufafam percaya bahwa membangun Partnership adalah pilihan yang tepat untuk mengelola organisasi beserta layanan dan produk yang anda miliki.
+          </p>
+
+          <br>
+          <p>Bufafam akan bekerja berdampingan dengan anda agar anda mampu memenangkan persaingan, menghasilkan yang terbaik bagi organisasi, pelanggan, dan masyarakat yang menjadi fokus anda.  
+          </p>
+
+          <br>
+          <p>Bufafam memiliki kemampuan yang akan memberikan solusi dan makin memampukan anda untuk mencapai tujuan dan target organisasi yang diharapkan.
+          </p>
+        </div>
+
+        {{-- <div class="clients-slider swiper">
+          <div class="swiper-wrapper align-items-center">
+            <div class="swiper-slide"><img src="assets/img/clients/client-1.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-2.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-3.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-4.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-5.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-6.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-7.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-8.png" class="img-fluid" alt=""></div>
+          </div>
+          <div class="swiper-pagination"></div>
+        </div> --}}
+
+      </div>
+    </section><!-- End Clients Section -->
+
+  </main><!-- End #main -->
+@endsection
+
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">Cards</div>
+
+                <div class="card-body">
+                    <a href="{{ route('cards.create') }}" class="btn btn-primary mb-3">Create Card</a>
+
+                    @if(session('success'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('success') }}
+                    </div>
+                    @endif
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Content</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($cards as $card)
+                            <tr>
+                                <th scope="row">{{ $card->id }}</th>
+                                <td>{{ $card->judul }}</td>
+                                <td>{{ $card->deskripsi }}</td>
+                                <td>{{ $card->konten }}</td>
+                                <td>
+                                    @if($card->gambar)
+                                    <img src="{{ asset('uploads/'.$card->gambar) }}" alt="Card Image" style="max-width: 100px;">
+                                    @else
+                                    No Image
+                                    @endif
+                                </td>
+                                <td>
+                                    <a href="{{ route('cards.show', $card->id) }}" class="btn btn-primary">View</a>
+                                    <a href="{{ route('cards.edit', $card->id) }}" class="btn btn-secondary">Edit</a>
+                                    <form action="{{ route('cards.destroy', $card->id) }}" method="POST" style="display: inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this card?')">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+@extends('layouts.template')
+
+@section('title', 'Tambah Card')
+
+@section('content')
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+        <div class="container">
+            <ol>
+                <li><a href="{{ url('/') }}">Home</a></li>
+                <li><a href="{{url('/dashboard/home/card')}}">Kelola Card</a></li>
+                <li>Tambah Card</li>
+            </ol>
+            <h2>Tambah Card</h2>
+        </div>
+    </section><!-- End Breadcrumbs -->
+
+    <section class="inner-page mt-4">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header">{{ __('Tambah Card') }}</div>
+
+                        <div class="card-body">
+                            <form method="POST" action="{{ route('dashboard.home.card.store') }}" enctype="multipart/form-data">
+                                @csrf
+
+                                <div class="form-group row">
+                                    <label for="judul" class="col-md-4 col-form-label text-md-right">{{ __('Judul') }}</label>
+
+                                    <div class="col-md-6">
+                                        <input id="judul" type="text" class="form-control @error('judul') is-invalid @enderror" name="judul" value="{{ old('judul') }}" required autofocus>
+
+                                        @error('judul')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="deskripsi" class="col-md-4 col-form-label text-md-right">{{ __('Deskripsi') }}</label>
+
+                                    <div class="col-md-6">
+                                        <textarea id="deskripsi" class="form-control @error('deskripsi') is-invalid @enderror" name="deskripsi" required>{{ old('deskripsi') }}</textarea>
+
+                                        @error('deskripsi')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="konten" class="col-md-4 col-form-label text-md-right">{{ __('Konten') }}</label>
+
+                                    <div class="col-md-6">
+                                        <textarea id="konten" class="form-control @error('konten') is-invalid @enderror" name="konten" required>{{ old('konten') }}</textarea>
+
+                                        @error('konten')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="gambar" class="col-md-4 col-form-label text-md-right">{{ __('Gambar') }}</label>
+
+                                    <div class="col-md-6">
+                                        <input id="gambar" type="file" class="form-control @error('gambar') is-invalid @enderror" name="gambar" required>
+
+                                        @error('gambar')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mb-0">
+                                    <div class="col-md-6 offset-md-4">
+                                        <button type="submit" class="btn btn-primary">
+                                            {{ __('Simpan') }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+@endsection
+
+<section id="services" class="services">
+      <div class="container">
+
+        <h2>Our Services :</h2>
+
+        <div class="row">
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+              <div class="icon-box">
+                  <div class="icon"><i class="bx bx-line-chart"></i></div>
+                  <h4><a href="#">Analisa Masalah Dampak Lingkungan</a></h4>
+                  <p>Menyediakan solusi untuk mengatasi dampak negatif terhadap lingkungan.</p>
+              </div>
+          </div>
+      
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+              <div class="icon-box">
+                  <div class="icon"><i class="bx bx-bar-chart"></i></div>
+                  <h4><a href="#">Bussiness Feasibility Study</a></h4>
+                  <p>Studi untuk menilai kelayakan dan potensi bisnis suatu proyek atau usaha.</p>
+              </div>
+          </div>
+      
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+              <div class="icon-box">
+                  <div class="icon"><i class="bx bx-tachometer"></i></div>
+                  <h4><a href="#">Riset dan Perencanaan Ekonomi</a></h4>
+                  <p>Melakukan studi dan perencanaan ekonomi untuk pengembangan bisnis yang berkelanjutan.</p>
+              </div>
+          </div>
+      
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+              <div class="icon-box">
+                  <div class="icon"><i class="bx bx-globe"></i></div>
+                  <h4><a href="#">Riset dan Perencanaan Sosial</a></h4>
+                  <p>Melakukan studi dan perencanaan sosial untuk membantu masyarakat secara efektif.</p>
+              </div>
+          </div>
+      
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+              <div class="icon-box">
+                  <div class="icon"><i class="bx bx-bar-chart-alt-2"></i></div>
+                  <h4><a href="#">Analis Masalah Dampak Lingkungan</a></h4>
+                  <p>Menganalisis dampak lingkungan dari suatu proyek atau kegiatan dan memberikan solusi.</p>
+              </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+            <div class="icon-box">
+                <div class="icon"><i class="bx bx-arch"></i></div>
+                <h4><a href="#">Detail Engineering Design</a></h4>
+                <p>Menghasilkan desain teknis terperinci untuk implementasi proyek yang efisien.</p>
+            </div>
+        </div>
+
+        
+
+        </div>
+
+      </div>
+    </section><!-- End Services Section -->
+
